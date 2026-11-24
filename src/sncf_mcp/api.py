@@ -2,6 +2,7 @@ from datetime import UTC, datetime, timedelta
 from typing import Any, Self
 
 import httpx
+from mcp.server.mcpserver.exceptions import ToolError
 
 from sncf_mcp.gtfsrt import PARIS
 
@@ -9,7 +10,7 @@ FMT = "%Y-%m-%d %H:%M"
 DEFAULT_URL = "https://api.sncf.com/v1/coverage/sncf"
 
 
-class SncfApiError(Exception):
+class SncfApiError(ToolError):
     def __init__(self, message: str, status: int | None = None) -> None:
         super().__init__(message)
         self.status = status

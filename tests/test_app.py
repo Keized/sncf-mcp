@@ -33,10 +33,10 @@ def test_settings_from_env(monkeypatch: pytest.MonkeyPatch) -> None:
     assert settings.auth_token is None
 
 
-def test_host_setting_applies_at_construction() -> None:
-    services = env().services
-    assert app.create_server(Settings(host="0.0.0.0"), services).settings.transport_security is None
-    assert app.create_server(Settings(), services).settings.transport_security is not None
+async def test_host_setting_controls_dns_rebinding_protection() -> None:
+    rebound = {"Host": "evil.example"}
+    assert (await post_init(Settings(), rebound)).status_code == 421
+    assert (await post_init(Settings(host="0.0.0.0"), rebound)).status_code == 200
 
 
 async def post_init(settings: Settings, headers: dict[str, str]) -> httpx.Response:
