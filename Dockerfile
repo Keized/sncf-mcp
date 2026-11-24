@@ -9,6 +9,9 @@ COPY src ./src
 RUN UV_PROJECT_ENVIRONMENT=/app/.venv uv sync --frozen --no-dev --no-editable
 
 FROM python:3.12-slim-bookworm AS runtime
+LABEL io.modelcontextprotocol.server.name="io.github.keized/sncf-mcp" \
+      org.opencontainers.image.source="https://github.com/Keized/sncf-mcp" \
+      org.opencontainers.image.licenses="Apache-2.0"
 COPY --from=build /app/.venv /app/.venv
 ENV PATH=/app/.venv/bin:$PATH HOST=0.0.0.0 PORT=8830
 USER nobody
