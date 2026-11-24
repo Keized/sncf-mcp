@@ -1,6 +1,6 @@
 [project]
 name = "sncf-mcp"
-version = "0.1.1"
+version = "0.2.0"
 description = "MCP server for SNCF train schedules, delays and disruptions (SNCF API)"
 license = "Apache-2.0"
 requires-python = ">=3.12"
