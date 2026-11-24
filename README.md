@@ -1,4 +1,6 @@
-# sncf-mcp
+# SNCF MCP
+
+[![sncf-mcp MCP server – quality and maintenance score on Glama](https://glama.ai/mcp/servers/Keized/sncf-mcp/badges/card.svg)](https://glama.ai/mcp/servers/Keized/sncf-mcp)
 
 Serveur MCP pour les horaires, retards en temps réel et perturbations des trains SNCF (TER, TGV, Intercités), utilisable depuis Claude, ChatGPT, Cursor et tout client MCP.
 
