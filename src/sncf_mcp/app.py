@@ -6,11 +6,12 @@ import os
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
+from importlib.metadata import version
 from typing import Self
 
 import httpx
 import uvicorn
-from mcp.server.fastmcp import FastMCP
+from mcp.server.mcpserver import MCPServer
 from starlette.applications import Starlette
 from starlette.responses import Response
 from starlette.types import ASGIApp, Receive, Scope, Send
@@ -66,14 +67,14 @@ def open_services(settings: Settings) -> Services:
     )
 
 
-def create_server(settings: Settings, services: Services) -> FastMCP:
-    mcp = FastMCP("sncf-mcp", host=settings.host, port=settings.port)
+def create_server(services: Services) -> MCPServer:
+    mcp = MCPServer("sncf-mcp", version=version("sncf-mcp"))
     tools.register(mcp, services)
     return mcp
 
 
 def build_app(settings: Settings, services: Services) -> Starlette:
-    app: Starlette = create_server(settings, services).streamable_http_app()
+    app = create_server(services).streamable_http_app(host=settings.host)
     serve = app.router.lifespan_context
 
     @asynccontextmanager
@@ -90,10 +91,10 @@ def build_app(settings: Settings, services: Services) -> Starlette:
     return app
 
 
-def run_stdio(settings: Settings, services: Services) -> None:
+def run_stdio(services: Services) -> None:
     async def serve() -> None:
         try:
-            await create_server(settings, services).run_stdio_async()
+            await create_server(services).run_stdio_async()
         finally:
             await services.aclose()
 
@@ -109,7 +110,7 @@ def main(argv: list[str] | None = None) -> None:
     if not settings.sncf_token:
         log.warning("SNCF_API_TOKEN is not set: tools will return an error")
     if args.transport == "stdio":
-        run_stdio(settings, open_services(settings))
+        run_stdio(open_services(settings))
         return
     config = uvicorn.Config(
         build_app(settings, open_services(settings)),

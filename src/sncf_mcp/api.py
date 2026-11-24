@@ -2,6 +2,7 @@ from datetime import UTC, datetime, timedelta
 from typing import Any, Self
 
 import httpx
+from mcp.server.mcpserver.exceptions import ToolError
 
 from sncf_mcp.gtfsrt import PARIS
 
@@ -9,7 +10,7 @@ FMT = "%Y-%m-%d %H:%M"
 DEFAULT_URL = "https://api.sncf.com/v1/coverage/sncf"
 
 
-class SncfApiError(Exception):
+class SncfApiError(ToolError):
     def __init__(self, message: str, status: int | None = None) -> None:
         super().__init__(message)
         self.status = status
@@ -72,7 +73,10 @@ def _message(resp: httpx.Response) -> str:
 
 
 def to_api(value: str) -> str:
-    dt = datetime.fromisoformat(value)
+    try:
+        dt = datetime.fromisoformat(value)
+    except ValueError:
+        raise SncfApiError("from_datetime must be ISO 8601, e.g. 2026-11-24T08:00") from None
     dt = dt.replace(tzinfo=PARIS) if dt.tzinfo is None else dt.astimezone(PARIS)
     return dt.strftime("%Y%m%dT%H%M%S")
 

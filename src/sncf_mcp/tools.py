@@ -5,7 +5,7 @@ from datetime import UTC, datetime
 from typing import Any
 from urllib.parse import quote
 
-from mcp.server.fastmcp import FastMCP
+from mcp.server.mcpserver import MCPServer
 from mcp.types import ToolAnnotations
 
 from sncf_mcp import api, gtfsrt, realtime
@@ -18,7 +18,7 @@ MAX_ALERTS = 20
 MIN_TERM = 3
 MAX_MESSAGE = 280
 FEED_DOWN = "SNCF realtime feed unavailable: planned times only"
-READ_ONLY = ToolAnnotations(readOnlyHint=True, openWorldHint=True)
+READ_ONLY = ToolAnnotations(read_only_hint=True, open_world_hint=True)
 
 
 @dataclass(frozen=True)
@@ -203,7 +203,7 @@ async def current_disruptions(
     return warning
 
 
-def register(mcp: FastMCP, s: Services) -> None:
+def register(mcp: MCPServer, s: Services) -> None:
     @mcp.tool(annotations=READ_ONLY)
     async def find_station(query: str) -> list[Station]:
         """Find train stations by name. Returns station ids to use in the other tools."""
