@@ -42,6 +42,12 @@ set -a; . ./.env; set +a
 uv run sncf-mcp
 ```
 
+Serves `http://127.0.0.1:8830/mcp`. For clients that launch the server themselves over stdio:
+
+```sh
+uv run sncf-mcp --transport stdio
+```
+
 ## Run with Docker
 
 ```sh

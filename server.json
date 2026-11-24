@@ -1,17 +1,17 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.keized/sncf-mcp",
+  "name": "io.github.Keized/sncf-mcp",
   "title": "SNCF trains",
   "description": "SNCF train schedules, realtime delays and disruptions (TER, TGV, Intercités).",
   "repository": {
     "url": "https://github.com/Keized/sncf-mcp",
     "source": "github"
   },
-  "version": "0.1.0",
+  "version": "0.1.1",
   "packages": [
     {
       "registryType": "oci",
-      "identifier": "ghcr.io/keized/sncf-mcp:0.1.0",
+      "identifier": "ghcr.io/keized/sncf-mcp:0.1.1",
       "transport": {
         "type": "streamable-http",
         "url": "http://localhost:8830/mcp"

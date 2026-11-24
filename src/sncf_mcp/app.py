@@ -1,3 +1,5 @@
+import argparse
+import asyncio
 import hmac
 import logging
 import os
@@ -88,11 +90,27 @@ def build_app(settings: Settings, services: Services) -> Starlette:
     return app
 
 
-def main() -> None:
+def run_stdio(settings: Settings, services: Services) -> None:
+    async def serve() -> None:
+        try:
+            await create_server(settings, services).run_stdio_async()
+        finally:
+            await services.aclose()
+
+    asyncio.run(serve())
+
+
+def main(argv: list[str] | None = None) -> None:
+    parser = argparse.ArgumentParser(prog="sncf-mcp")
+    parser.add_argument("--transport", choices=("http", "stdio"), default="http")
+    args = parser.parse_args(argv)
     logging.basicConfig(level=logging.INFO)
     settings = Settings.from_env()
     if not settings.sncf_token:
         log.warning("SNCF_API_TOKEN is not set: tools will return an error")
+    if args.transport == "stdio":
+        run_stdio(settings, open_services(settings))
+        return
     config = uvicorn.Config(
         build_app(settings, open_services(settings)),
         host=settings.host,
