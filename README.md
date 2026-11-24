@@ -50,6 +50,12 @@ docker compose up -d --build
 
 Serves `http://127.0.0.1:8830/mcp`, bound to localhost only.
 
+Or pull the published image:
+
+```sh
+docker run -d --env-file .env -p 127.0.0.1:8830:8830 ghcr.io/keized/sncf-mcp:latest
+```
+
 ## Connect
 
 ### Claude Code (same machine)
