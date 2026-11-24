@@ -106,3 +106,14 @@ async def test_tool_error_is_reported() -> None:
         result = await client.call_tool("find_station", {"query": "x"})
     assert result.is_error
     assert "SNCF_API_TOKEN is not set" in result.content[0].text  # type: ignore[union-attr]
+
+
+async def test_invalid_datetime_is_reported() -> None:
+    mcp = MCPServer("t")
+    tools.register(mcp, env().services)
+    async with Client(mcp) as client:
+        result = await client.call_tool(
+            "departures", {"station_id": "stop_area:SNCF:87191007", "from_datetime": "demain"}
+        )
+    assert result.is_error
+    assert "from_datetime must be ISO 8601" in result.content[0].text  # type: ignore[union-attr]

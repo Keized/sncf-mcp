@@ -73,7 +73,10 @@ def _message(resp: httpx.Response) -> str:
 
 
 def to_api(value: str) -> str:
-    dt = datetime.fromisoformat(value)
+    try:
+        dt = datetime.fromisoformat(value)
+    except ValueError:
+        raise SncfApiError("from_datetime must be ISO 8601, e.g. 2026-11-24T08:00") from None
     dt = dt.replace(tzinfo=PARIS) if dt.tzinfo is None else dt.astimezone(PARIS)
     return dt.strftime("%Y%m%dT%H%M%S")
 
