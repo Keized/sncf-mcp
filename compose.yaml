@@ -1,0 +1,23 @@
+name: sncf-mcp
+services:
+  sncf-mcp:
+    build:
+      context: .
+      target: runtime
+    ports:
+      - "127.0.0.1:8830:8830"
+    environment:
+      SNCF_API_TOKEN: ${SNCF_API_TOKEN:-}
+      SNCF_API_URL: ${SNCF_API_URL:-https://api.sncf.com/v1/coverage/sncf}
+      MCP_AUTH_TOKEN: ${MCP_AUTH_TOKEN:-}
+    restart: unless-stopped
+  dev:
+    profiles: [dev]
+    build:
+      context: .
+      target: dev
+    volumes:
+      - .:/app
+      - cache:/cache
+volumes:
+  cache:
