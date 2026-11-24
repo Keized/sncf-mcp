@@ -133,6 +133,8 @@ d() { docker compose run --rm --user "$(id -u):$(id -g)" dev "$@"; }
 d uv run ruff check . && d uv run ruff format --check . && d uv run mypy && d uv run pytest
 ```
 
+Release: set the same version in `pyproject.toml`, `uv.lock` and `server.json`, merge, then push a tag `vX.Y.Z`. The `publish` workflow pushes the image to GHCR and the server to the MCP registry.
+
 ## License
 
 [Apache 2.0](LICENSE): free to use, modify and redistribute, provided you keep the copyright and the [NOTICE](NOTICE) crediting this project.
