@@ -1,6 +1,6 @@
 # SNCF MCP
 
-<img src="assets/sncf-mcp.svg" width="100%" alt="sncf-mcp: an agent answers that the 17:42 to Strasbourg is 25 minutes late, next to a departures board full of delays and a small train that stops on the track."/>
+<picture><source media="(prefers-color-scheme: light)" srcset="assets/sncf-mcp-light.svg"/><img src="assets/sncf-mcp.svg" width="100%" alt="sncf-mcp: an agent answers that the 17:42 to Strasbourg is 25 minutes late, next to a departures board full of delays and a small train that stops on the track."/></picture>
 
 [![sncf-mcp MCP server – quality and maintenance score on Glama](https://glama.ai/mcp/servers/Keized/sncf-mcp/badges/card.svg)](https://glama.ai/mcp/servers/Keized/sncf-mcp)
 
