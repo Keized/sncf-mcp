@@ -1,5 +1,7 @@
 # SNCF MCP
 
+<img src="assets/sncf-mcp.svg" width="100%" alt="sncf-mcp: an agent answers that the 17:42 to Strasbourg is 25 minutes late, next to a departures board full of delays and a small train that stops on the track."/>
+
 [![sncf-mcp MCP server – quality and maintenance score on Glama](https://glama.ai/mcp/servers/Keized/sncf-mcp/badges/card.svg)](https://glama.ai/mcp/servers/Keized/sncf-mcp)
 
 Serveur MCP pour les horaires, retards en temps réel et perturbations des trains SNCF (TER, TGV, Intercités), utilisable depuis Claude, ChatGPT, Cursor et tout client MCP.
